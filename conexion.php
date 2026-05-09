@@ -34,31 +34,27 @@ if (isset($_ENV['DATABASE_URL']) && !empty($_ENV['DATABASE_URL'])) {
 
 try {
     $dsn = "pgsql:host=$host;port=$port;dbname=$bd";
-    // Usamos una clase extendida para mantener compatibilidad con $conexion->query()
-    class PDO_Compatible extends PDO {
-        public function query($statement, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, ...$fetch_details): PDOStatement|false {
-            return parent::query($statement);
-        }
-        public function set_charset($charset) { return true; }
-    }
-
-    $conexion = new PDO_Compatible($dsn, $usuario, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ]);
-
-    // Shim para que fetch_assoc() y num_rows funcionen en los objetos devueltos
+    // Clase para emular el comportamiento de MySQLi en PDO
     class PDOStatement_Compatible extends PDOStatement {
         public function fetch_assoc() { return $this->fetch(PDO::FETCH_ASSOC); }
         public function fetch_row() { return $this->fetch(PDO::FETCH_NUM); }
-        // num_rows es difícil de emular en PDO sin cargar todo, pero rowCount suele servir
-        public $num_rows = 0; 
-        protected function __construct() {
-            // PDOStatement no permite constructor público, se maneja vía setAttribute
+        public function get_result() { return $this; } // Para compatibilidad con sentencias preparadas
+        
+        // Emular num_rows usando rowCount (aproximado en SELECTs de Postgres)
+        public function __get($name) {
+            if ($name === 'num_rows') {
+                return $this->rowCount();
+            }
+            return null;
         }
     }
-    // Nota: Emular num_rows perfectamente requiere cambios en cada controlador.
-    // Por ahora, forzaremos PDO para que sea lo más compatible posible.
+
+    $conexion = new PDO($dsn, $usuario, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        // ESTA ES LA CLAVE: Decirle a PDO que use nuestra clase compatible
+        PDO::ATTR_STATEMENT_CLASS => ['PDOStatement_Compatible', []]
+    ]);
 
 } catch (PDOException $e) {
     die("Error de conexión (PostgreSQL): " . $e->getMessage());
