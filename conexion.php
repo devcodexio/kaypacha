@@ -48,9 +48,6 @@ try {
     // Clase para emular métodos de conexión de MySQLi
     class PDO_Compatible extends PDO {
         public function set_charset($charset) { return true; }
-        public function query($statement, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, ...$fetch_details): PDOStatement|false {
-            return parent::query($statement);
-        }
     }
 
     $conexion = new PDO_Compatible($dsn, $usuario, $password, [
