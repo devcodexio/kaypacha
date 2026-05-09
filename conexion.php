@@ -35,24 +35,28 @@ try {
     $dsn = "pgsql:host=$host;port=$port;dbname=$bd";
     // Clase para emular el comportamiento de MySQLi en PDO
     class PDOStatement_Compatible extends PDOStatement {
+        protected function __construct() {}
         public function fetch_assoc() { return $this->fetch(PDO::FETCH_ASSOC); }
         public function fetch_row() { return $this->fetch(PDO::FETCH_NUM); }
-        public function get_result() { return $this; } // Para compatibilidad con sentencias preparadas
-        
-        // Emular num_rows usando rowCount (aproximado en SELECTs de Postgres)
+        public function get_result() { return $this; } 
         public function __get($name) {
-            if ($name === 'num_rows') {
-                return $this->rowCount();
-            }
+            if ($name === 'num_rows') return $this->rowCount();
             return null;
         }
     }
 
-    $conexion = new PDO($dsn, $usuario, $password, [
+    // Clase para emular métodos de conexión de MySQLi
+    class PDO_Compatible extends PDO {
+        public function set_charset($charset) { return true; }
+        public function query($statement, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, ...$fetch_details): PDOStatement|false {
+            return parent::query($statement);
+        }
+    }
+
+    $conexion = new PDO_Compatible($dsn, $usuario, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        // ESTA ES LA CLAVE: Decirle a PDO que use nuestra clase compatible
-        PDO::ATTR_STATEMENT_CLASS => ['PDOStatement_Compatible', []]
+        PDO::ATTR_STATEMENT_CLASS => ['PDOStatement_Compatible']
     ]);
 
 } catch (PDOException $e) {
