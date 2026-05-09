@@ -1,0 +1,12 @@
+.git
+.gitignore
+.env
+Dockerfile
+.dockerignore
+scratch
+*.sql
+*.md
+laragon
+.idea
+.vscode
+node_modules
