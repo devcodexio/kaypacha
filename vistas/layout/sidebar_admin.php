@@ -167,7 +167,7 @@ $current_page = $_SERVER['REQUEST_URI'];
     
     <ul class="sidebar-nav">
         <li class="sidebar-nav-item">
-            <a href="<?= $base ?>controladores/admin/DashboardAdminController.php" 
+            <a href="<?= BASE_URL ?>controladores/admin/DashboardAdminController.php" 
                class="sidebar-link <?= strpos($current_page, 'DashboardAdminController') !== false ? 'active' : '' ?>"
                data-title="Panel Principal">
                 <i class="fas fa-th-large"></i>
@@ -176,7 +176,7 @@ $current_page = $_SERVER['REQUEST_URI'];
         </li>
 
         <li class="sidebar-nav-item">
-            <a href="<?= $base ?>controladores/admin/ReservasAdminController.php?accion=index" 
+            <a href="<?= BASE_URL ?>controladores/admin/ReservasAdminController.php?accion=index" 
                class="sidebar-link <?= strpos($current_page, 'ReservasAdminController') !== false ? 'active' : '' ?>"
                data-title="Gestionar Reservas">
                 <i class="fas fa-calendar-day"></i>
@@ -185,7 +185,7 @@ $current_page = $_SERVER['REQUEST_URI'];
         </li>
 
         <li class="sidebar-nav-item">
-            <a href="<?= $base ?>controladores/admin/UsuariosAdminController.php?accion=index" 
+            <a href="<?= BASE_URL ?>controladores/admin/UsuariosAdminController.php?accion=index" 
                class="sidebar-link <?= strpos($current_page, 'UsuariosAdminController') !== false ? 'active' : '' ?>"
                data-title="Control de Usuarios">
                 <i class="fas fa-user-gear"></i>
@@ -194,7 +194,7 @@ $current_page = $_SERVER['REQUEST_URI'];
         </li>
 
         <li class="sidebar-nav-item">
-            <a href="<?= $base ?>controladores/admin/PagosStripeAdminController.php?accion=index" 
+            <a href="<?= BASE_URL ?>controladores/admin/PagosStripeAdminController.php?accion=index" 
                class="sidebar-link <?= strpos($current_page, 'PagosStripeAdminController') !== false ? 'active' : '' ?>"
                data-title="Verificar Pagos Digitales">
                 <i class="fa-brands fa-stripe-s"></i>
@@ -207,7 +207,7 @@ $current_page = $_SERVER['REQUEST_URI'];
 
     <ul class="sidebar-nav">
         <li class="sidebar-nav-item">
-            <a href="<?= $base ?>controladores/admin/MesasAdminController.php?accion=index" 
+            <a href="<?= BASE_URL ?>controladores/admin/MesasAdminController.php?accion=index" 
                class="sidebar-link <?= strpos($current_page, 'MesasAdminController') !== false ? 'active' : '' ?>"
                data-title="Configurar Mesas">
                 <i class="fas fa-map-location-dot"></i>
@@ -215,7 +215,7 @@ $current_page = $_SERVER['REQUEST_URI'];
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="<?= $base ?>controladores/admin/PlatosAdminController.php?accion=index" 
+            <a href="<?= BASE_URL ?>controladores/admin/PlatosAdminController.php?accion=index" 
                class="sidebar-link <?= strpos($current_page, 'PlatosAdminController') !== false ? 'active' : '' ?>"
                data-title="Menú Digital">
                 <i class="fas fa-bowl-food"></i>
@@ -223,7 +223,7 @@ $current_page = $_SERVER['REQUEST_URI'];
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="<?= $base ?>controladores/admin/CategoriasAdminController.php?accion=index" 
+            <a href="<?= BASE_URL ?>controladores/admin/CategoriasAdminController.php?accion=index" 
                class="sidebar-link <?= strpos($current_page, 'CategoriasAdminController') !== false ? 'active' : '' ?>"
                data-title="Categorías">
                 <i class="fas fa-layer-group"></i>
@@ -236,7 +236,7 @@ $current_page = $_SERVER['REQUEST_URI'];
 
     <ul class="sidebar-nav">
         <li class="sidebar-nav-item">
-            <a href="<?= $base ?>controladores/admin/TestimoniosAdminController.php?accion=index" 
+            <a href="<?= BASE_URL ?>controladores/admin/TestimoniosAdminController.php?accion=index" 
                class="sidebar-link <?= strpos($current_page, 'TestimoniosAdminController') !== false ? 'active' : '' ?>"
                data-title="Reseñas">
                 <i class="fas fa-quote-left"></i>

@@ -177,6 +177,7 @@ $current_page = $_SERVER['REQUEST_URI'];
 
         <li class="sidebar-nav-item">
             <a href="<?= $base ?>controladores/cliente/PagosYapeClienteController.php?accion=index" 
+            <a href="<?= BASE_URL ?>controladores/cliente/PagosYapeClienteController.php?accion=index" 
                class="sidebar-link <?= strpos($current_page, 'PagosYapeClienteController') !== false ? 'active' : '' ?>"
                data-title="Mis Pagos">
                 <i class="fas fa-wallet"></i>
@@ -189,7 +190,7 @@ $current_page = $_SERVER['REQUEST_URI'];
 
     <ul class="sidebar-nav">
         <li class="sidebar-nav-item">
-            <a href="<?= $base ?>controladores/cliente/PerfilClienteController.php?accion=ver" 
+            <a href="<?= BASE_URL ?>controladores/cliente/PerfilClienteController.php?accion=ver" 
                class="sidebar-link <?= strpos($current_page, 'PerfilClienteController') !== false ? 'active' : '' ?>"
                data-title="Mi Perfil">
                 <i class="fas fa-user-circle"></i>
