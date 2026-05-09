@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../layout/header.php';
 ?>
-<link rel="stylesheet" href="<?= BASE_URL ?>assets/Style-login.css?v=3">
+<link rel="stylesheet" href="<?= BASE_URL ?>assets/style-login.css?v=3">
 
 <div class="page-container registro-page">
 
