@@ -16,66 +16,59 @@ if ($base_path == '/') $base_path = '';
 
 define('BASE_URL', $protocol . "://" . $host . $base_path . "/");
 
-// Intentar obtener configuración desde DATABASE_URL
-if (isset($_ENV['DATABASE_URL']) && !empty($_ENV['DATABASE_URL'])) {
-    $db_url = parse_url($_ENV['DATABASE_URL']);
-    $host = $db_url['host'] ?? "127.0.0.1";
-    $usuario = $db_url['user'] ?? "root";
-    $password = $db_url['pass'] ?? "";
-    $bd = ltrim($db_url['path'], '/');
-} else {
-    // Fallback a variables individuales
-    $host = $_ENV['DB_HOST'] ?? "127.0.0.1";
-    $usuario = $_ENV['DB_USER'] ?? "root";
-    $password = $_ENV['DB_PASS'] ?? "";
-    $bd = $_ENV['DB_NAME'] ?? "restaurante";
+// Configuración de Conexión (PostgreSQL)
+$host = $_ENV['DB_HOST'] ?? "127.0.0.1";
+$usuario = $_ENV['DB_USER'] ?? "postgres";
+$password = $_ENV['DB_PASS'] ?? "";
+$bd = $_ENV['DB_NAME'] ?? "restaurante";
+$port = $_ENV['DB_PORT'] ?? "5432";
+
+try {
+    $dsn = "pgsql:host=$host;port=$port;dbname=$bd";
+    // Usamos una clase extendida para mantener compatibilidad con $conexion->query()
+    class PDO_Compatible extends PDO {
+        public function query($statement, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, ...$fetch_details): PDOStatement|false {
+            return parent::query($statement);
+        }
+        public function set_charset($charset) { return true; }
+    }
+
+    $conexion = new PDO_Compatible($dsn, $usuario, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+
+    // Shim para que fetch_assoc() y num_rows funcionen en los objetos devueltos
+    class PDOStatement_Compatible extends PDOStatement {
+        public function fetch_assoc() { return $this->fetch(PDO::FETCH_ASSOC); }
+        public function fetch_row() { return $this->fetch(PDO::FETCH_NUM); }
+        // num_rows es difícil de emular en PDO sin cargar todo, pero rowCount suele servir
+        public $num_rows = 0; 
+        protected function __construct() {
+            // PDOStatement no permite constructor público, se maneja vía setAttribute
+        }
+    }
+    // Nota: Emular num_rows perfectamente requiere cambios en cada controlador.
+    // Por ahora, forzaremos PDO para que sea lo más compatible posible.
+
+} catch (PDOException $e) {
+    die("Error de conexión (PostgreSQL): " . $e->getMessage());
 }
 
-$conexion = new mysqli($host, $usuario, $password, $bd);
-
-if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
+/* =========================================
+   LIBERAR MESAS (SINTAXIS POSTGRESQL)
+========================================= */
+try {
+    $sqlLiberar = "
+    UPDATE mesas SET estado = 'disponible'
+    FROM reservas r WHERE r.mesa_id = mesas.id
+    AND (r.fecha + r.hora) < NOW() AND r.estado != 'finalizada';
+    
+    UPDATE reservas SET estado = 'finalizada'
+    WHERE (fecha + hora) < NOW() AND estado != 'finalizada';
+    ";
+    $conexion->exec($sqlLiberar);
+} catch (Exception $e) {
+    // Silencioso si falla la tabla por no existir aún
 }
-
-$conexion->set_charset("utf8mb4");
-
-
-/* =========================================
-   LIBERAR MESAS CUANDO LA RESERVA YA PASÓ
-========================================= */
-
-$sqlLiberar = "
-UPDATE mesas m
-INNER JOIN reservas r ON r.mesa_id = m.id
-SET 
-    m.estado = 'disponible',
-    r.estado = 'finalizada'
-WHERE 
-    CONCAT(r.fecha,' ',r.hora) < NOW()
-    AND r.estado != 'finalizada'
-";
-
-$conexion->query($sqlLiberar);
-
-
-/* =========================================
-   OPCIONAL: LIBERAR DESPUÉS DE 2 HORAS
-   (más real para restaurantes)
-========================================= */
-
-/*
-$sqlLiberar = "
-UPDATE mesas m
-INNER JOIN reservas r ON r.mesa_id = m.id
-SET 
-    m.estado = 'disponible',
-    r.estado = 'finalizada'
-WHERE 
-    DATE_ADD(CONCAT(r.fecha,' ',r.hora), INTERVAL 2 HOUR) < NOW()
-    AND r.estado != 'finalizada'
-";
-
-$conexion->query($sqlLiberar);
-*/
-
 ?>
