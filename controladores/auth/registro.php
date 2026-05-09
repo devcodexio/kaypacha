@@ -5,7 +5,7 @@ session_start();
 require_once __DIR__ . '/../../conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: /clientes/vistas/auth/registro.php");
+    header("Location: " . BASE_URL . "vistas/auth/registro.php");
     exit;
 }
 
@@ -18,13 +18,13 @@ $direccion         = trim($_POST['direccion'] ?? '');
 
 // Validar campos obligatorios
 if ($nombre === '' || $correo === '' || $password === '' || $password_confirm === '') {
-    header("Location: /clientes/vistas/auth/registro.php?error=campos");
+    header("Location: " . BASE_URL . "vistas/auth/registro.php?error=campos");
     exit;
 }
 
 // Validar contraseñas iguales
 if ($password !== $password_confirm) {
-    header("Location: /clientes/vistas/auth/registro.php?error=password");
+    header("Location: " . BASE_URL . "vistas/auth/registro.php?error=password");
     exit;
 }
 
@@ -38,7 +38,7 @@ $existe = $result->fetch_assoc();
 $stmt->close();
 
 if ($existe) {
-    header("Location: /clientes/vistas/auth/registro.php?error=correo");
+    header("Location: " . BASE_URL . "vistas/auth/registro.php?error=correo");
     exit;
 }
 
@@ -54,5 +54,5 @@ $stmt2->execute();
 $stmt2->close();
 
 // Opcional: podrías loguearlo directamente aquí, pero por ahora lo mandamos al login
-header("Location: /clientes/vistas/auth/login.php?registro=ok");
+header("Location: " . BASE_URL . "vistas/auth/login.php?registro=ok");
 exit;

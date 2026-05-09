@@ -39,6 +39,17 @@ try {
         public function fetch_assoc() { return $this->fetch(PDO::FETCH_ASSOC); }
         public function fetch_row() { return $this->fetch(PDO::FETCH_NUM); }
         public function get_result() { return $this; } 
+        public function close() { return true; }
+        public function closeCursor(): bool { return parent::closeCursor(); }
+        
+        // Emular bind_param de MySQLi
+        public function bind_param($types, &...$params) {
+            foreach ($params as $i => &$val) {
+                $this->bindValue($i + 1, $val);
+            }
+            return true;
+        }
+
         public function __get($name) {
             if ($name === 'num_rows') return $this->rowCount();
             return null;
