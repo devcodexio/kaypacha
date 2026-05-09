@@ -1,16 +1,15 @@
 <?php
 require_once __DIR__ . '/env.php';
 
-// Configuración de la URL base dinámica (SOLUCIÓN DEFINITIVA)
-$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http";
+// Configuración de la URL base dinámica (Soporte para Proxies/Render)
+$protocol = "http";
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') $protocol = "https";
+elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') $protocol = "https";
+
 $host = $_SERVER['HTTP_HOST'];
-// Obtenemos la ruta física de la carpeta del proyecto
 $project_dir = str_replace('\\', '/', __DIR__);
-// Obtenemos la ruta física de la raíz del servidor
 $document_root = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
-// Calculamos la diferencia para obtener la ruta URL
 $base_path = str_replace($document_root, '', $project_dir);
-// Limpiamos posibles barras dobles
 $base_path = '/' . trim($base_path, '/');
 if ($base_path == '/') $base_path = '';
 

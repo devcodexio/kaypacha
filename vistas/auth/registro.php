@@ -3,7 +3,7 @@ require_once __DIR__ . '/../layout/header.php';
 ?>
 <link rel="stylesheet" href="<?= BASE_URL ?>assets/style-login.css?v=3">
 
-<div class="page-container registro-page">
+<div class="page-container registro-page d-flex justify-content-center align-items-center" style="min-height: 100vh;">
 
     <main class="main-content auth-content">
 
