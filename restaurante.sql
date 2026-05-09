@@ -106,4 +106,16 @@ CREATE TABLE IF NOT EXISTS nosotros (
   descripcion TEXT NOT NULL
 );
 
+-- 9. PAGOS YAPE
+CREATE TABLE IF NOT EXISTS pagos_yape (
+  id SERIAL PRIMARY KEY,
+  reserva_id INTEGER NOT NULL REFERENCES reservas(id) ON DELETE CASCADE,
+  numero_telefono VARCHAR(20),
+  nombre_yape VARCHAR(150),
+  monto DECIMAL(10,2) NOT NULL,
+  numero_operacion VARCHAR(50) UNIQUE,
+  estado VARCHAR(20) DEFAULT 'pendiente',
+  fecha_pago TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 COMMIT;
