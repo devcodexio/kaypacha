@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 
 -- Admin por defecto: admin@correo.com / admin123
 INSERT INTO usuarios (rol_id, nombre, correo, contraseña) VALUES 
-(1, 'Administrador Pro', 'admin@correo.com', '$2y$10$APGpHzwWQO1qaJn8gJAFIe1bEorKEeXWCu2ytPBa/LhDZuyffb0Vy')
+(1, 'Administrador Pro', 'admin@correo.com', '$2y$10$0AsJBpvtFjtaRb0jefKGkeGIO2m62mqJNmPpD2slfdXltPOFizaj6')
 ON CONFLICT (correo) DO NOTHING;
 
 -- 3. CATEGORIAS Y PLATOS
