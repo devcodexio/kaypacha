@@ -1,7 +1,7 @@
 <?php
 // vistas/layout/headers.php
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
-$base = "/clientes/";
+// $base ya no es necesario, usamos la constante BASE_URL definida en conexion.php
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -111,8 +111,8 @@ $base = "/clientes/";
 
 <nav class="navbar navbar-expand-lg navbar-public">
     <div class="container">
-        <a class="navbar-brand" href="<?= $base ?>index.php">
-            <img src="/clientes/img/logo.png" alt="Kay-Pacha">
+        <a class="navbar-brand" href="<?= BASE_URL ?>index.php">
+            <img src="<?= BASE_URL ?>img/logo.png" alt="Kay-Pacha">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
@@ -121,16 +121,16 @@ $base = "/clientes/";
 
         <div class="collapse navbar-collapse" id="navMain">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link nav-link-pro" href="<?= $base ?>index.php">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-pro" href="<?= $base ?>index.php#carta">Nuestra Carta</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-pro" href="<?= $base ?>index.php#nosotros">Nosotros</a></li>
-                <li class="nav-item"><a class="nav-link nav-link-pro" href="<?= $base ?>index.php#testimonios">Opiniones</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-pro" href="<?= BASE_URL ?>index.php">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-pro" href="<?= BASE_URL ?>index.php#carta">Nuestra Carta</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-pro" href="<?= BASE_URL ?>index.php#nosotros">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link nav-link-pro" href="<?= BASE_URL ?>index.php#testimonios">Opiniones</a></li>
             </ul>
 
             <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
                 <?php if (!isset($_SESSION['usuario_id'])): ?>
-                    <a href="<?= $base ?>vistas/auth/login.php" class="nav-link-pro" style="font-size: 0.8rem;">Login</a>
-                    <a href="<?= $base ?>vistas/auth/registro.php" class="btn btn-reserve-pro">Reservar Mesa</a>
+                    <a href="<?= BASE_URL ?>vistas/auth/login.php" class="nav-link-pro" style="font-size: 0.8rem;">Login</a>
+                    <a href="<?= BASE_URL ?>vistas/auth/registro.php" class="btn btn-reserve-pro">Reservar Mesa</a>
                 <?php else: ?>
                     <?php 
                         $panelUrl = "";
@@ -138,7 +138,7 @@ $base = "/clientes/";
                         elseif($_SESSION['rol'] == 2) $panelUrl = "controladores/empleado/DashboardEmpleadoController.php";
                         else $panelUrl = "controladores/cliente/DashboardClienteController.php";
                     ?>
-                    <a href="<?= $base . $panelUrl ?>" class="user-pill-public">
+                    <a href="<?= BASE_URL . $panelUrl ?>" class="user-pill-public">
                         <div class="avatar-mini"><?= strtoupper(substr($_SESSION['nombre'], 0, 1)) ?></div>
                         <span class="small fw-700 mini-hide"><?= htmlspecialchars($_SESSION['nombre']) ?></span>
                         <i class="fas fa-chevron-right ms-1 small opacity-50"></i>

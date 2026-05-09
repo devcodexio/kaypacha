@@ -1,10 +1,12 @@
 <?php
-// vistas/layout/headerr.php
+// vistas/layout/header.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-$base = "/clientes/";
+// Incluir conexión para tener BASE_URL si no está definida
+if (!defined('BASE_URL')) {
+    require_once __DIR__ . '/../../conexion.php';
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -255,8 +257,8 @@ $base = "/clientes/";
                 <i class="fas fa-bars-staggered"></i>
             </button>
             <div class="brand-container-pro ms-3">
-                <a href="<?= $base ?>index.php" class="text-decoration-none d-flex align-items-center gap-3">
-                    <img src="/clientes/img/logo.png" class="navbar-brand-img" alt="Kay-Pacha">
+                <a href="<?= BASE_URL ?>index.php" class="text-decoration-none d-flex align-items-center gap-3">
+                    <img src="<?= BASE_URL ?>img/logo.png" class="navbar-brand-img" alt="Kay-Pacha">
                     <div class="brand-text-pro d-none d-lg-block">
                         <span class="d-block fw-800 text-white" style="letter-spacing: 1px; font-size: 1.1rem; line-height: 1;">KAY-PACHA</span>
                         <span class="d-block fw-600 text-indigo text-uppercase" style="letter-spacing: 3px; font-size: 0.6rem; opacity: 0.8;">Admin Suite</span>
@@ -287,7 +289,7 @@ $base = "/clientes/";
                         </div>
                     </a>
 
-                    <a href="<?= $base ?>controladores/auth/logout.php" class="btn-logout-pro" title="Cerrar Sesión">
+                    <a href="<?= BASE_URL ?>controladores/auth/logout.php" class="btn-logout-pro" title="Cerrar Sesión">
                         <i class="fas fa-power-off"></i>
                     </a>
                 </div>

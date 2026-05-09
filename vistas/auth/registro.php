@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../layout/header.php';
 ?>
-<link rel="stylesheet" href="/clientes/assets/Style-login.css?v=3">
+<link rel="stylesheet" href="<?= BASE_URL ?>assets/Style-login.css?v=3">
 
 <div class="page-container registro-page">
 
@@ -33,7 +33,7 @@ require_once __DIR__ . '/../layout/header.php';
                 </div>
             <?php endif; ?>
 
-            <form action="/clientes/controladores/auth/registro.php"
+            <form action="<?= BASE_URL ?>controladores/auth/registro.php"
                   method="POST"
                   class="form-auth">
 
@@ -72,7 +72,7 @@ require_once __DIR__ . '/../layout/header.php';
 
             <p class="auth-bottom">
                 ¿Ya tienes cuenta?
-                <a href="/clientes/vistas/auth/login.php">Inicia sesión aquí</a>
+                <a href="<?= BASE_URL ?>vistas/auth/login.php">Inicia sesión aquí</a>
             </p>
 
         </div>

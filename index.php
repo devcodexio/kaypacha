@@ -5,9 +5,9 @@ require_once __DIR__ . '/conexion.php';
 
 // Redirección si ya está logueado
 if (isset($_SESSION['usuario_id'])) {
-    if ($_SESSION['rol'] == 1) header("Location: /clientes/controladores/admin/DashboardAdminController.php");
-    elseif ($_SESSION['rol'] == 2) header("Location: /clientes/controladores/empleado/DashboardEmpleadoController.php");
-    elseif ($_SESSION['rol'] == 3) header("Location: /clientes/controladores/cliente/DashboardClienteController.php");
+    if ($_SESSION['rol'] == 1) header("Location: " . BASE_URL . "controladores/admin/DashboardAdminController.php");
+    elseif ($_SESSION['rol'] == 2) header("Location: " . BASE_URL . "controladores/empleado/DashboardEmpleadoController.php");
+    elseif ($_SESSION['rol'] == 3) header("Location: " . BASE_URL . "controladores/cliente/DashboardClienteController.php");
     exit;
 }
 
@@ -221,7 +221,7 @@ require_once __DIR__ . '/vistas/layout/headers.php';
 
 <!-- 🎭 HERO LUXURY 🎭 -->
 <section class="hero-luxury">
-    <img src="/clientes/img/fondo.jpeg" alt="Kay-Pacha Background">
+    <img src="<?= BASE_URL ?>img/fondo.jpeg" alt="Kay-Pacha Background">
     <div class="hero-overlay-lux"></div>
     <div class="hero-content-lux">
         <span class="hero-tag" data-aos="fade-down">Donde el alma se alimenta</span>
@@ -256,7 +256,7 @@ require_once __DIR__ . '/vistas/layout/headers.php';
             ?>
                 <div class="plato-card-lux" data-aos="fade-up">
                     <?php if (!empty($p['imagen'])): ?>
-                        <img src="uploads/<?= htmlspecialchars($p['imagen']) ?>" class="plato-img-lux">
+                        <img src="<?= BASE_URL ?>uploads/<?= htmlspecialchars($p['imagen']) ?>" class="plato-img-lux">
                     <?php else: ?>
                         <div class="plato-img-lux d-flex align-items-center justify-content-center bg-slate-800">
                             <i class="fas fa-utensils text-slate-700 display-4"></i>
