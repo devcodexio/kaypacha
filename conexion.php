@@ -16,12 +16,21 @@ if ($base_path == '/') $base_path = '';
 
 define('BASE_URL', $protocol . "://" . $host . $base_path . "/");
 
-// Configuración de Conexión (PostgreSQL)
-$host = $_ENV['DB_HOST'] ?? "127.0.0.1";
-$usuario = $_ENV['DB_USER'] ?? "postgres";
-$password = $_ENV['DB_PASS'] ?? "";
-$bd = $_ENV['DB_NAME'] ?? "restaurante";
-$port = $_ENV['DB_PORT'] ?? "5432";
+// Configuración de Conexión (PostgreSQL - Soporte Render)
+if (isset($_ENV['DATABASE_URL']) && !empty($_ENV['DATABASE_URL'])) {
+    $db_url = parse_url($_ENV['DATABASE_URL']);
+    $host = $db_url['host'];
+    $port = $db_url['port'] ?? "5432";
+    $usuario = $db_url['user'];
+    $password = $db_url['pass'];
+    $bd = ltrim($db_url['path'], '/');
+} else {
+    $host = $_ENV['DB_HOST'] ?? "127.0.0.1";
+    $usuario = $_ENV['DB_USER'] ?? "postgres";
+    $password = $_ENV['DB_PASS'] ?? "";
+    $bd = $_ENV['DB_NAME'] ?? "restaurante";
+    $port = $_ENV['DB_PORT'] ?? "5432";
+}
 
 try {
     $dsn = "pgsql:host=$host;port=$port;dbname=$bd";
