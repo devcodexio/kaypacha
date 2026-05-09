@@ -1,0 +1,48 @@
+/* ⭐ NAVBAR ESTILO OSCURO */
+.custom-navbar {
+    background: #1F2225 !important;
+    padding: 12px 25px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+}
+
+/* ⭐ LOGO TAMAÑO */
+.custom-navbar .navbar-brand img {
+    width: 130px;
+}
+
+/* ⭐ MENÚ DESKTOP (PC) */
+.menu-desktop .nav-link {
+    color: #ffffff !important;
+    margin-left: 18px;
+    font-size: 17px;
+}
+
+.menu-desktop .nav-link:hover {
+    color: #FFD36B !important;
+}
+
+/* ⭐ BOTÓN HAMBURGUESA (CELULAR) */
+.custom-toggler {
+    border: 3px solid #BFC3C6 !important;
+    padding: 6px 12px !important;
+    border-radius: 12px !important;
+}
+
+.custom-toggler i {
+    font-size: 22px;
+    color: #ffffff;
+}
+
+/* ⭐ OCULTAR MENÚ COMPLETO EN PC SOLO MOSTRAR HAMBURGUESA EN CELULAR */
+@media (max-width: 991px) {
+    .menu-desktop {
+        margin-top: 25px;
+    }
+}
+
+/* ⭐ EN PC NO MOSTRAR ICONO HAMBURGUESA */
+@media (min-width: 992px) {
+    .custom-toggler {
+        display: none !important;
+    }
+}

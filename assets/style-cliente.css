@@ -1,0 +1,41 @@
+/* Sidebar cerrado por defecto */
+.sidebar-cliente {
+    position: fixed;
+    top: 80px;
+    left: -260px;
+    width: 240px;
+    background: #0F0F0F;
+    height: calc(100vh - 80px);
+    border-right: 2px solid #D4A017;
+    padding: 30px 20px;
+    color: white;
+    transition: 0.4s ease;
+    z-index: 900;
+}
+
+/* Sidebar abierto */
+.sidebar-cliente.open {
+    left: 0;
+}
+
+/* Contenedor principal */
+.cliente-page {
+    display: flex;
+    padding-top: 90px;
+    min-height: calc(100vh - 90px);
+}
+
+/* Main content */
+.main-content {
+    margin-left: 0;
+    padding: 25px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+/* Si el sidebar está abierto en PC, empuja el contenido */
+@media (min-width: 1000px) {
+    .sidebar-cliente.open ~ .main-content {
+        margin-left: 240px;
+    }
+}
